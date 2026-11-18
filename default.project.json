@@ -1,10 +1,15 @@
 {
-  "name": "house-dodge",
+  "name": "brainrot-bazaar",
   "tree": {
     "$className": "DataModel",
     "Players": {
       "$properties": {
-        "CharacterAutoLoads": false
+        "CharacterAutoLoads": true
+      }
+    },
+    "ReplicatedStorage": {
+      "Shared": {
+        "$path": "src/shared"
       }
     },
     "ServerScriptService": {
@@ -21,42 +26,58 @@
     },
     "Workspace": {
       "$properties": {
-        "FilteringEnabled": true
+        "FilteringEnabled": true,
+        "StreamingEnabled": false
       },
       "Baseplate": {
         "$className": "Part",
         "$properties": {
           "Anchored": true,
-          "Color": [
-            0.38823,
-            0.37254,
-            0.38823
-          ],
+          "Color": [0.36, 0.72, 0.38],
+          "Material": "Grass",
           "Locked": true,
-          "Position": [
-            0,
-            -10,
-            0
-          ],
-          "Size": [
-            512,
-            20,
-            512
-          ]
+          "Position": [0, -10, 0],
+          "Size": [700, 20, 700]
         }
       }
     },
     "Lighting": {
       "$properties": {
-        "Ambient": [
-          0,
-          0,
-          0
-        ],
-        "Brightness": 2,
+        "Ambient": [0.55, 0.52, 0.6],
+        "OutdoorAmbient": [0.62, 0.6, 0.66],
+        "Brightness": 2.1,
+        "ExposureCompensation": -0.15,
+        "ClockTime": 14.5,
+        "GeographicLatitude": 28,
         "GlobalShadows": true,
         "Outlines": false,
-        "Technology": "Voxel"
+        "Technology": "ShadowMap"
+      },
+      "Atmosphere": {
+        "$className": "Atmosphere",
+        "$properties": {
+          "Density": 0.2,
+          "Offset": 0.1,
+          "Color": [0.8, 0.86, 1.0],
+          "Decay": [0.95, 0.8, 0.9],
+          "Glare": 0.1,
+          "Haze": 0.5
+        }
+      },
+      "Bloom": {
+        "$className": "BloomEffect",
+        "$properties": {
+          "Intensity": 0.18,
+          "Size": 20,
+          "Threshold": 1.9
+        }
+      },
+      "Punch": {
+        "$className": "ColorCorrectionEffect",
+        "$properties": {
+          "Saturation": 0.22,
+          "Contrast": 0.08
+        }
       }
     },
     "SoundService": {
