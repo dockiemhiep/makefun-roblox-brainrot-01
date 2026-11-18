@@ -1,3 +1,4 @@
+// BRAINROT BAZAAR hand-in program: buy absurd brainrots off the conveyor, park them on your base, outrun the thieves.
 // A working roblox-brainrot-01 entry (Node 22, standard library only): the game is this directory's Rojo
 // project, built into game.rbxl with `rojo build default.project.json --output game.rbxl`, and the program
 // hands it in. It copies game.rbxl, src/, screenshots/ and PLAY.json from beside this file to /output and
@@ -37,3 +38,7 @@ writeFileSync(
   join(out, 'dossier.json'),
   buildDossier(out, { text_max_bytes: 65536, screenshots: { max: 4, max_bytes: 262144 }, max_instances: 500000, scripts_max_source_bytes: 8388608, scripts_max_path_chars: 1048576 }),
 );
+
+// Brainrot Bazaar's own hand-in receipt: fixed text only (no clock, no random), so two runs print the same line.
+const handedIn = ['game.rbxl', 'PLAY.json', 'src', 'screenshots', 'dossier.json'].filter((name) => existsSync(join(out, name)));
+console.log(`brainrot-bazaar: handed in ${handedIn.join(', ')} to ${out}`);
