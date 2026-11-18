@@ -47,7 +47,8 @@ local function fitCanvasToViewport()
 	if workspace:GetAttribute("PhotoFrame16x9") and width / height < 16 / 9 then
 		height = width * 9 / 16
 	end
-	local scale = math.clamp(math.min(width / 1280, height / 720), 0.45, 2)
+	-- laid out on an 1100x620 canvas: chunky enough to read on a phone or in a thumbnail
+	local scale = math.clamp(math.min(width / 1100, height / 620), 0.45, 2.4)
 	canvasScale.Scale = scale
 	canvas.Size = UDim2.fromOffset(width / scale, height / scale)
 end
@@ -65,17 +66,17 @@ local function commas(amount: number): string
 end
 
 -- TOP CENTRE: the cash counter, income a second under it, then the collection chips. ------------
-local cashPanel = HudKit.panel(canvas, "CashPanel", UDim2.fromOffset(380, 112), UDim2.new(0.5, 0, 0, 12), Vector2.new(0.5, 0))
-local coin = HudKit.panel(cashPanel, "Coin", UDim2.fromOffset(72, 72), UDim2.new(0, 18, 0.5, 0), Vector2.new(0, 0.5), C.gold, 36)
-HudKit.label(coin, "Sign", "$", 50, C.text)
-local cashLabel = HudKit.label(cashPanel, "Cash", "$0", 54, C.text, UDim2.new(1, -112, 0, 60), UDim2.fromOffset(100, 6), Enum.TextXAlignment.Left)
-local incomeLabel = HudKit.label(cashPanel, "Income", "+$0/s", 28, C.money, UDim2.new(1, -112, 0, 32), UDim2.fromOffset(102, 68), Enum.TextXAlignment.Left)
+local cashPanel = HudKit.panel(canvas, "CashPanel", UDim2.fromOffset(380, 96), UDim2.new(0.5, 0, 0, 8), Vector2.new(0.5, 0))
+local coin = HudKit.panel(cashPanel, "Coin", UDim2.fromOffset(64, 64), UDim2.new(0, 18, 0.5, 0), Vector2.new(0, 0.5), C.gold, 36)
+HudKit.label(coin, "Sign", "$", 44, C.text)
+local cashLabel = HudKit.label(cashPanel, "Cash", "$0", 50, C.text, UDim2.new(1, -104, 0, 54), UDim2.fromOffset(94, 2), Enum.TextXAlignment.Left)
+local incomeLabel = HudKit.label(cashPanel, "Income", "+$0/s", 27, C.money, UDim2.new(1, -104, 0, 30), UDim2.fromOffset(96, 56), Enum.TextXAlignment.Left)
 
 local chipRow = Instance.new("Frame")
 chipRow.Name = "Chips"
 chipRow.BackgroundTransparency = 1
-chipRow.Size = UDim2.fromOffset(560, 34)
-chipRow.Position = UDim2.new(0.5, 0, 0, 134)
+chipRow.Size = UDim2.fromOffset(560, 36)
+chipRow.Position = UDim2.new(0.5, 0, 0, 111)
 chipRow.AnchorPoint = Vector2.new(0.5, 0)
 chipRow.Parent = canvas
 local chipLayout = Instance.new("UIListLayout")
@@ -84,13 +85,13 @@ chipLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 chipLayout.Padding = UDim.new(0, 10)
 chipLayout.Parent = chipRow
 local function makeChip(name: string, width: number, color: Color3): TextLabel
-	local chip = HudKit.panel(chipRow, name, UDim2.fromOffset(width, 34), UDim2.new(), nil, nil, 17)
+	local chip = HudKit.panel(chipRow, name, UDim2.fromOffset(width, 36), UDim2.new(), nil, nil, 18)
 	chip.Edge.Thickness = 2
-	return HudKit.label(chip, "Text", "", 19, color)
+	return HudKit.label(chip, "Text", "", 21, color)
 end
-local brainrotChip = makeChip("BrainrotChip", 170, C.text)
-local collectionChip = makeChip("CollectionChip", 190, C.gold)
-local rebirthChip = makeChip("RebirthChip", 150, C.rebirth)
+local brainrotChip = makeChip("BrainrotChip", 150, C.text)
+local collectionChip = makeChip("CollectionChip", 170, C.gold)
+local rebirthChip = makeChip("RebirthChip", 160, C.text)
 
 -- THIEF WAVE banner: a quiet countdown that turns into a big red warning. --------------------------
 -- While calm it is a small clock in the top-right corner; the warning and the raid take centre stage.
@@ -100,8 +101,10 @@ local waveLabel = HudKit.label(wavePanel, "Text", "", 22, C.text)
 -- BOTTOM BAR: Lock Base and Rebirth. -----------------------------------------------------------------
 local lockKit = HudKit.bigButton(canvas, "LockBaseButton", "LOCK BASE", C.lock, UDim2.new(0.5, -135, 1, -16))
 local rebirthKit = HudKit.bigButton(canvas, "RebirthButton", "REBIRTH", C.rebirth, UDim2.new(0.5, 135, 1, -16))
-local carryPanel = HudKit.panel(canvas, "CarryBanner", UDim2.fromOffset(660, 46), UDim2.new(0.5, 0, 1, -104), Vector2.new(0.5, 1), C.gold, 23)
-local carryLabel = HudKit.label(carryPanel, "Text", "", 24, C.text)
+local carryPanel = HudKit.panel(canvas, "CarryBanner", UDim2.fromOffset(520, 42), UDim2.new(0.5, 0, 1, -94), Vector2.new(0.5, 1), nil, 21)
+carryPanel.Edge.Color = C.gold
+carryPanel.Edge.Transparency = 0
+local carryLabel = HudKit.label(carryPanel, "Text", "", 24, C.gold)
 carryPanel.Visible = false
 
 -- LEFT: the rarity ladder with how many of each tier you have discovered. -------------------------
@@ -119,7 +122,7 @@ local toastColumn = Instance.new("Frame")
 toastColumn.Name = "Toasts"
 toastColumn.BackgroundTransparency = 1
 toastColumn.Size = UDim2.fromOffset(360, 400)
-toastColumn.Position = UDim2.new(1, -14, 0, 70)
+toastColumn.Position = UDim2.new(1, -14, 0, 176) -- below the chips and the wave banner
 toastColumn.AnchorPoint = Vector2.new(1, 0)
 toastColumn.Parent = canvas
 local toastLayout = Instance.new("UIListLayout")
@@ -180,7 +183,7 @@ end
 local function refreshCollection()
 	local income = player:GetAttribute("Income") or 0
 	incomeLabel.Text = "+$" .. commas(income) .. " / sec"
-	brainrotChip.Text = "BRAINROTS " .. (player:GetAttribute("Brainrots") or 0) .. "/" .. (player:GetAttribute("Pads") or Catalog.StartingPads)
+	brainrotChip.Text = "PADS " .. (player:GetAttribute("Brainrots") or 0) .. "/" .. (player:GetAttribute("Pads") or Catalog.StartingPads)
 	local found = {}
 	local foundCount = 0
 	for id in string.gmatch(player:GetAttribute("Discovered") or "", "[^,]+") do
@@ -190,7 +193,7 @@ local function refreshCollection()
 			foundCount += 1
 		end
 	end
-	collectionChip.Text = "COLLECTED " .. foundCount .. "/" .. #Catalog.List
+	collectionChip.Text = "FOUND " .. foundCount .. "/" .. #Catalog.List
 	for rarityName, label in ladderRows do
 		label.Text = (found[rarityName] or 0) .. "/" .. #Catalog.ByRarity[rarityName]
 	end
@@ -203,19 +206,20 @@ end
 -- The wave banner: countdown while calm, big red "INCOMING" in the warning, "BONK THEM" in the raid.
 local function refreshWaveBanner(now: number)
 	local phase = workspace:GetAttribute("WavePhase") or "calm"
+	chipRow.Visible = phase == "calm" -- the warning banner takes the chips' place under the cash
 	local left = math.max(0, math.ceil((workspace:GetAttribute("WaveEndsAt") or now) - now))
 	if phase == "warn" then
 		local pulse = 0.5 + 0.5 * math.sin(os.clock() * 10)
 		wavePanel.AnchorPoint = Vector2.new(0.5, 0)
-		wavePanel.Position = UDim2.new(0.5, 0, 0, 180)
-		wavePanel.Size = UDim2.fromOffset(600, 64)
+		wavePanel.Position = UDim2.new(0.5, 0, 0, 110)
+		wavePanel.Size = UDim2.fromOffset(600, 58)
 		wavePanel.BackgroundColor3 = C.danger:Lerp(C.ink, 0.25 + 0.3 * pulse)
 		waveLabel.TextSize = 34
 		waveLabel.Text = "THIEF WAVE INCOMING!  " .. left
 	elseif phase == "raid" then
 		wavePanel.AnchorPoint = Vector2.new(0.5, 0)
-		wavePanel.Position = UDim2.new(0.5, 0, 0, 180)
-		wavePanel.Size = UDim2.fromOffset(600, 54)
+		wavePanel.Position = UDim2.new(0.5, 0, 0, 110)
+		wavePanel.Size = UDim2.fromOffset(600, 50)
 		wavePanel.BackgroundColor3 = C.danger:Lerp(C.ink, 0.35)
 		waveLabel.TextSize = 27
 		waveLabel.Text = "WAVE " .. (workspace:GetAttribute("WaveNumber") or 1) .. ": THIEVES ARE IN!  BONK THEM!"
@@ -223,8 +227,9 @@ local function refreshWaveBanner(now: number)
 		wavePanel.AnchorPoint = Vector2.new(1, 0)
 		wavePanel.Position = UDim2.new(1, -14, 0, 12)
 		wavePanel.Size = UDim2.fromOffset(300, 46)
-		wavePanel.BackgroundColor3 = C.panel
-		waveLabel.TextSize = 23
+		-- the last ten calm seconds turn the clock red: time to head home
+		wavePanel.BackgroundColor3 = left <= 10 and C.danger:Lerp(C.ink, 0.3) or C.panel
+		waveLabel.TextSize = left <= 10 and 26 or 23
 		waveLabel.Text = string.format("THIEF WAVE IN  %d:%02d", left // 60, left % 60)
 	end
 end
@@ -237,12 +242,12 @@ local function refreshButtons(now: number)
 	elseif now < readyAt then
 		HudKit.setButton(lockKit, string.format("RECHARGING  %ds", math.ceil(readyAt - now)), 1 - (readyAt - now) / (Catalog.LockCooldown - Catalog.LockSeconds), false)
 	else
-		HudKit.setButton(lockKit, "READY  [F]  at your base", 1, true)
+		HudKit.setButton(lockKit, "READY  [F]", 1, true)
 	end
 	local cost = player:GetAttribute("RebirthCost") or Catalog.RebirthBaseCost
 	local cash = player:GetAttribute("Cash") or 0
 	local nextMultiplier = 2 + (player:GetAttribute("Rebirths") or 0)
-	HudKit.setButton(rebirthKit, "$" .. Catalog.formatCash(cost) .. "  for  x" .. nextMultiplier .. " income", cash / cost, cash >= cost)
+	HudKit.setButton(rebirthKit, "$" .. Catalog.formatCash(cost) .. " = x" .. nextMultiplier .. " INCOME", cash / cost, cash >= cost)
 end
 
 local function requestLockBase()
@@ -275,6 +280,6 @@ end)
 
 -- A small bounce on the cash panel whenever money arrives.
 player:GetAttributeChangedSignal("Cash"):Connect(function()
-	coin.Size = UDim2.fromOffset(80, 80)
-	TweenService:Create(coin, TweenInfo.new(0.25, Enum.EasingStyle.Back), { Size = UDim2.fromOffset(72, 72) }):Play()
+	coin.Size = UDim2.fromOffset(72, 72)
+	TweenService:Create(coin, TweenInfo.new(0.25, Enum.EasingStyle.Back), { Size = UDim2.fromOffset(64, 64) }):Play()
 end)

@@ -117,6 +117,14 @@ if RunService:IsStudio() then
 			Economy.addCash(player, value)
 		elseif command == "give" then
 			BaseManager.giveCarriedBrainrot(player, Catalog.ById[value], nil, 1)
+		elseif command == "pad" then
+			BaseManager.unlockNextPad(player)
+		elseif command == "upgrade" then
+			local plot = BaseManager.plotOf(player)
+			local best = plot and BaseManager.bestBrainrotOf(plot)
+			if best then
+				BaseManager.upgradeBrainrot(player, best)
+			end
 		elseif command == "thief" then
 			local plot = BaseManager.plotOf(player)
 			if plot then

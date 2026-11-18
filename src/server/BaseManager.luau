@@ -11,8 +11,9 @@ local Economy = require(script.Parent.Economy)
 
 local BaseManager = {}
 
--- set by the server script: notify(player, payload) shows a popup; onRivalRobbed(player, plot, rank) sends revenge
-BaseManager.hooks = { notify = print, onRivalRobbed = print, onBaseLocked = print }
+-- filled in by the server script before any player joins:
+--   notify(player, payload) shows a popup, onRivalRobbed(player, plot, rank) sends revenge, onBaseLocked(plot) zaps thieves
+BaseManager.hooks = {}
 
 local plots = {}
 local worldFolder: Folder
@@ -217,6 +218,7 @@ function BaseManager.upgradeBrainrot(player: Player, record)
 	end
 	record.level += 1
 	record.income = Catalog.incomePerSecond(record.entry, record.mutation, record.level)
+	record.model:ScaleTo(1 + 0.07 * (record.level - 1)) -- upgraded brainrots visibly grow
 	relabel(record)
 	addPadPrompts(record)
 	BaseManager.refreshBase(record.plot)
@@ -256,9 +258,9 @@ function BaseManager.giveCarriedBrainrot(player: Player, entry, mutation: string
 	if carried[player] or not rootPart or not plotOfPlayer[player] then
 		return false
 	end
-	local model = Builder.buildBrainrotModel(entry, mutation)
+	local model = Builder.buildBrainrotModel(entry, mutation, Builder.CARRIED_SIZE)
 	Builder.setBrainrotLabel(model, { mutation = mutation, income = Catalog.incomePerSecond(entry, mutation, level), tag = "RUN HOME!" })
-	model:PivotTo(rootPart.CFrame * CFrame.new(0, 3.6, 0))
+	model:PivotTo(rootPart.CFrame * CFrame.new(0, 2.9, 0))
 	local root = model.PrimaryPart
 	root.Anchored = false
 	local weld = Instance.new("WeldConstraint")
@@ -391,7 +393,7 @@ function BaseManager.grabBrainrot(record, carrier: BasePart)
 	record.grabbed = true
 	Builder.clearPrompts(record.model)
 	local root = record.model.PrimaryPart
-	record.model:PivotTo(carrier.CFrame * CFrame.new(0, 6.0, 0.6))
+	record.model:PivotTo(carrier.CFrame * CFrame.new(0, 7.4, 0.6))
 	root.Anchored = false
 	local weld = Instance.new("WeldConstraint")
 	weld.Name = "ThiefGrip"

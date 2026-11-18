@@ -24,11 +24,11 @@ local rgb = Color3.fromRGB
 -- The rarity ladder, lowest to highest. weight = how often the conveyor rolls the tier.
 Catalog.RarityOrder = { "Common", "Rare", "Epic", "Legendary", "Mythic" }
 Catalog.Rarities = {
-	Common = { rank = 1, weight = 46, color = rgb(196, 204, 214), beam = false },
+	Common = { rank = 1, weight = 40, color = rgb(196, 204, 214), beam = false },
 	Rare = { rank = 2, weight = 28, color = rgb(64, 162, 255), beam = false },
-	Epic = { rank = 3, weight = 15, color = rgb(184, 92, 255), beam = true },
-	Legendary = { rank = 4, weight = 8, color = rgb(255, 198, 40), beam = true },
-	Mythic = { rank = 5, weight = 3, color = rgb(255, 64, 120), beam = true },
+	Epic = { rank = 3, weight = 17, color = rgb(184, 92, 255), beam = true },
+	Legendary = { rank = 4, weight = 10, color = rgb(255, 198, 40), beam = true },
+	Mythic = { rank = 5, weight = 5, color = rgb(255, 64, 120), beam = true },
 }
 
 -- Mutations multiply income (and price). Rolled when a brainrot drops onto the conveyor.

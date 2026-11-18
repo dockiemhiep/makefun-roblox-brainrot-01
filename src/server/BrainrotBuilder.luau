@@ -7,6 +7,8 @@ local Catalog = require(ReplicatedStorage.Shared.BrainrotCatalog)
 
 local Builder = {}
 Builder.SCALE = 1.4
+Builder.CARRIED_SIZE = 0.55 -- a carried brainrot is shrunk so it does not hide its carrier
+local buildScale = Builder.SCALE
 
 local BLACK = Color3.fromRGB(24, 22, 30)
 local WHITE = Color3.fromRGB(255, 255, 255)
@@ -14,7 +16,8 @@ local WHITE = Color3.fromRGB(255, 255, 255)
 local addPart, addFace, addLegs, applyMutation, addRarityBeam, makeLabelLine
 
 -- Builds the creature at the origin, feet on y = 0, facing -Z. The caller pivots and parents it.
-function Builder.buildBrainrotModel(entry, mutationId: string?): Model
+function Builder.buildBrainrotModel(entry, mutationId: string?, sizeFactor: number?): Model
+	buildScale = Builder.SCALE * (sizeFactor or 1)
 	local model = Instance.new("Model")
 	model.Name = entry.id
 	model:SetAttribute("BrainrotId", entry.id)
@@ -58,12 +61,12 @@ function Builder.buildBrainrotModel(entry, mutationId: string?): Model
 
 	local gui = Instance.new("BillboardGui")
 	gui.Name = "Label"
-	gui.Size = UDim2.fromScale(15, 6.4)
-	gui.StudsOffsetWorldSpace = Vector3.new(0, entry.height * Builder.SCALE + 3.4, 0)
+	gui.Size = UDim2.fromScale(13, 5.6)
+	gui.StudsOffsetWorldSpace = Vector3.new(0, entry.height * buildScale + 3.4, 0)
 	gui.LightInfluence = 0
-	gui.MaxDistance = 320
-	gui.DistanceLowerLimit = 42 -- labels stop growing when you stand next to the creature
-	gui.DistanceUpperLimit = 130 -- and stop shrinking across the bazaar, so they stay readable
+	gui.MaxDistance = 180
+	gui.DistanceLowerLimit = 50 -- labels stop growing when you stand next to the creature
+	gui.DistanceUpperLimit = 84 -- and stop shrinking across the bazaar, so they stay readable
 	gui.Parent = root
 	local layout = Instance.new("UIListLayout")
 	layout.SortOrder = Enum.SortOrder.LayoutOrder
@@ -75,7 +78,7 @@ function Builder.buildBrainrotModel(entry, mutationId: string?): Model
 
 	local promptPoint = Instance.new("Attachment")
 	promptPoint.Name = "PromptPoint"
-	promptPoint.Position = Vector3.new(0, entry.height * Builder.SCALE * 0.5, 0)
+	promptPoint.Position = Vector3.new(0, entry.height * buildScale * 0.5, 0)
 	promptPoint.Parent = root
 
 	Builder.setBrainrotLabel(model, { mutation = mutationId, income = Catalog.incomePerSecond(entry, mutationId, 1), level = 1 })
@@ -91,8 +94,8 @@ end
 
 function addPart(model: Model, root: BasePart, shape: string, size: Vector3, cf: CFrame, color: Color3, material: Enum.Material?, transparency: number?): BasePart
 	-- every creature is built SCALE times the catalog's numbers so it reads from across the bazaar
-	size *= Builder.SCALE
-	cf = CFrame.new(cf.Position * Builder.SCALE) * cf.Rotation
+	size *= buildScale
+	cf = CFrame.new(cf.Position * buildScale) * cf.Rotation
 	local part: BasePart
 	if shape == "Wedge" then
 		part = Instance.new("WedgePart")

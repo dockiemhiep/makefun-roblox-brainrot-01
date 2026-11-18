@@ -160,12 +160,12 @@ end
 
 -- The plaza floor, the grass, and the checkered walkways beside the conveyor.
 function buildPlazaGround(parent: Instance)
-	part(parent, "PlazaFloor", V(250, 0.4, 126), CFrame.new(10, 0.2, 0), rgb(240, 214, 160), Enum.Material.Sand)
+	part(parent, "PlazaFloor", V(250, 0.4, 126), CFrame.new(10, 0.2, 0), rgb(222, 186, 128), Enum.Material.Sand)
 	for side = -1, 1, 2 do
 		for i = 0, 21 do
-			local tile = part(parent, "WalkTile", V(8, 0.1, 8), CFrame.new(-84 + i * 8, 0.42, side * 12), i % 2 == 0 and rgb(255, 244, 214) or rgb(255, 196, 150), Enum.Material.SmoothPlastic)
+			local tile = part(parent, "WalkTile", V(8, 0.1, 8), CFrame.new(-84 + i * 8, 0.42, side * 12), i % 2 == 0 and rgb(250, 226, 176) or rgb(244, 160, 110), Enum.Material.SmoothPlastic)
 			tile.CanCollide = false
-			local tile2 = part(parent, "WalkTile", V(8, 0.1, 8), CFrame.new(-84 + i * 8, 0.42, side * 20), i % 2 == 1 and rgb(255, 244, 214) or rgb(255, 196, 150), Enum.Material.SmoothPlastic)
+			local tile2 = part(parent, "WalkTile", V(8, 0.1, 8), CFrame.new(-84 + i * 8, 0.42, side * 20), i % 2 == 1 and rgb(250, 226, 176) or rgb(244, 160, 110), Enum.Material.SmoothPlastic)
 			tile2.CanCollide = false
 		end
 	end
@@ -326,7 +326,7 @@ function buildBasePlot(parent: Instance, index: number)
 	for _, px in { -9, 9 } do
 		part(folder, "SignPost", V(0.8, 12, 0.8), origin * CFrame.new(px, 6, 17.4), dark)
 	end
-	local board = part(folder, "OwnerSign", V(22, 5.6, 0.8), origin * CFrame.new(0, 13.4, 17.4), rgb(30, 22, 50))
+	local board = part(folder, "OwnerSign", V(22, 5.6, 0.8), origin * CFrame.new(0, 13.4, 17.4), rgb(48, 30, 96))
 	board.CanCollide = false
 	local ownerLabel = paintSign(board, "FOR RENT", rgb(255, 255, 255), true)
 

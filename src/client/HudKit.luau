@@ -25,7 +25,7 @@ function HudKit.panel(parent: Instance, name: string, size: UDim2, position: UDi
 	frame.Position = position
 	frame.AnchorPoint = anchor or Vector2.zero
 	frame.BackgroundColor3 = color or HudKit.Colors.panel
-	frame.BackgroundTransparency = 0.08
+	frame.BackgroundTransparency = 0
 	frame.BorderSizePixel = 0
 	frame.Parent = parent
 	local corner = Instance.new("UICorner")
@@ -67,7 +67,7 @@ function HudKit.bigButton(parent: Instance, name: string, title: string, color: 
 	button.Name = name
 	button.Text = ""
 	button.AutoButtonColor = true
-	button.Size = UDim2.fromOffset(250, 76)
+	button.Size = UDim2.fromOffset(250, 70)
 	button.Position = position
 	button.AnchorPoint = Vector2.new(0.5, 1)
 	button.BackgroundColor3 = color
@@ -91,8 +91,8 @@ function HudKit.bigButton(parent: Instance, name: string, title: string, color: 
 	fill.Position = UDim2.fromScale(0, 1)
 	fill.Size = UDim2.new(0, 0, 0, 10)
 	fill.Parent = button
-	local titleLabel = HudKit.label(button, "Title", title, 30, nil, UDim2.new(1, 0, 0, 36), UDim2.fromOffset(0, 6))
-	local status = HudKit.label(button, "Status", "", 19, nil, UDim2.new(1, -12, 0, 22), UDim2.fromOffset(6, 40))
+	local titleLabel = HudKit.label(button, "Title", title, 28, nil, UDim2.new(1, 0, 0, 34), UDim2.fromOffset(0, 3))
+	local status = HudKit.label(button, "Status", "", 21, nil, UDim2.new(1, -12, 0, 24), UDim2.fromOffset(6, 35))
 	return { button = button, title = titleLabel, status = status, fill = fill, color = color }
 end
 

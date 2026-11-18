@@ -115,8 +115,8 @@ local function buildSnatcherModel(): Model
 	gui.StudsOffsetWorldSpace = Vector3.new(0, 8.6, 0)
 	gui.LightInfluence = 0
 	gui.MaxDistance = 320
-	gui.DistanceLowerLimit = 42
-	gui.DistanceUpperLimit = 130
+	gui.DistanceLowerLimit = 50
+	gui.DistanceUpperLimit = 84
 	gui.Parent = root
 	for index, text in { "THIEF!", "TOUCH TO BONK" } do
 		local line = Instance.new("TextLabel")
@@ -136,6 +136,7 @@ end
 -- Sends one snatcher from the hideout toward a base.
 function ThiefAI.sendThiefToBase(plot)
 	local model = buildSnatcherModel()
+	model:ScaleTo(1.25) -- big enough to spot from across the plaza
 	local door = World.HIDEOUT_DOOR
 	local laneZ = plot.side * 15
 	local thief = {
