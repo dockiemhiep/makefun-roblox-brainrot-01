@@ -8,19 +8,25 @@
       }
     },
     "ReplicatedStorage": {
-      "Shared": {
-        "$path": "src/shared"
+      "BrainrotCatalog": {
+        "$path": "src/BrainrotCatalog.luau"
       }
     },
     "ServerScriptService": {
-      "Server": {
-        "$path": "src/server"
+      "Bazaar3DWorldAndConveyor": {
+        "$path": "src/Bazaar3DWorldAndConveyor.server.luau"
+      },
+      "BasePadsLockAndRebirth": {
+        "$path": "src/BasePadsLockAndRebirth.luau"
+      },
+      "ThiefWavesAndRivalRaids": {
+        "$path": "src/ThiefWavesAndRivalRaids.luau"
       }
     },
     "StarterPlayer": {
       "StarterPlayerScripts": {
-        "Client": {
-          "$path": "src/client"
+        "HudAndWorldFx": {
+          "$path": "src/HudAndWorldFx.client.luau"
         }
       }
     },
@@ -36,7 +42,7 @@
           "Color": [0.36, 0.72, 0.38],
           "Material": "Grass",
           "Locked": true,
-          "Position": [0, -10, 0],
+          "CFrame": [0, -10, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
           "Size": [700, 20, 700]
         }
       }
