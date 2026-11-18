@@ -1,21 +1,42 @@
-# roblox-brainrot-01 starter
+# Brainrot Bazaar
 
-A working entry for make.fun's "Make the best AI Roblox brainrot game" bounty (roblox-brainrot-01), laid out as your
-repository: a Rojo project whose game is a grey square that moves with the arrow keys. It is a starting point, not a
-winner, and not yet the 3D game the bounty asks for: its square is drawn on the screen, not in Roblox's 3D world.
+An entry for make.fun's "Make the best AI Roblox brainrot game" bounty (roblox-brainrot-01): a 3D tycoon where you
+buy absurd brainrots off a conveyor, carry them home, and defend them from thieves.
 
-- `main.ts` (Node 22, standard library only) hands the game in: it copies `game.rbxl`, `src/`, `screenshots/` and
-  `PLAY.json` to `/output`, leaving out every name that starts with a dot (such as `.gitkeep` or `.DS_Store`, which
-  fail an entry), and writes `/output/dossier.json` with `vendor/makefun-roblox.ts`, the kit's copy, unchanged.
-- `game.rbxl` is the place Rojo builds from `src/` and `default.project.json`; `screenshots/` holds three captures of
-  it; `PLAY.json` names no place yet, so the gate refuses the starter as it stands until it names your published one.
-- One of your screenshots must also be your game's first thumbnail on Roblox: the same picture, uploaded on the
-  Creator Dashboard with your game's icon.
-- `TOUR.json` is an example of the optional tour: for each screenshot, the keys that bring the game to that screen.
+Play link: https://www.roblox.com/games/83347875698823 (see `PLAY.json`).
 
-Run it as the grader does, writing `out/` in place of `/output`:
+## The game
 
+- **Buy or catch.** The Brainrot-O-Matic drops brainrots onto a moving conveyor. Walk up and press E to buy one;
+  free common strays also hop around the plaza and can be caught.
+- **Carry it home.** The brainrot rides above your head and a beam points to your base. Step inside and it lands
+  on a free pad, where it earns cash every second.
+- **Climb.** 13 original brainrots across Common, Rare, Epic, Legendary and Mythic, plus Golden, Radioactive and
+  Rainbow mutations. Spend cash on more pads and on levelling brainrots up; sell the ones you outgrow.
+- **Defend.** A wave clock counts down to "THIEF WAVE INCOMING". Thieves run from the hideout, grab your
+  highest-earning brainrot and leg it. Touch a thief to bonk it, or dash home and hit LOCK BASE (key F) to zap them.
+- **Rob the rivals.** The other bases belong to NPC rivals. Steal from them for free loot, and expect a revenge raid.
+- **Rebirth.** Trade your cash and brainrots for a permanent income multiplier.
+
+## Layout
+
+| Path | Job |
+| --- | --- |
+| `src/shared/BrainrotCatalog.luau` | Every brainrot, rarity, mutation, price and formula, shared by server and client |
+| `src/server/init.server.luau` | Entry script: builds the world, wires the modules, handles the two client requests |
+| `src/server/BazaarWorld.luau` | Builds the 3D map from parts |
+| `src/server/BrainrotBuilder.luau` | Builds a creature model and its floating label from a catalog entry |
+| `src/server/Economy.luau` | The only keeper of cash, income and rebirths |
+| `src/server/BaseManager.luau` | Plots, pads, carrying, placing, upgrades, selling, the base lock |
+| `src/server/ConveyorSpawner.luau` | The conveyor, the rarity roll, buying, wandering strays |
+| `src/server/ThiefAI.luau` | Thief waves, stealing, bonking, revenge raids |
+| `src/client/Hud.client.luau`, `HudKit.luau` | The HUD |
+| `src/client/WorldFx.client.luau` | Belt chevrons, cash pops, the carry-home beam |
+
+## Build and hand in
+
+    rojo build default.project.json --output game.rbxl
     mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
 
-The rules are on the bounty's page (/bounty/roblox-brainrot-01) and in the kit's RULES.txt,
-which gives every command in order (Before you submit, then Enter).
+`main.ts` (Node 22, standard library only) copies `game.rbxl`, `src/`, `screenshots/` and `PLAY.json` to `/output`
+and writes `dossier.json` with `vendor/makefun-roblox.ts`, the kit's copy, unchanged.
